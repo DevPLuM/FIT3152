@@ -1,0 +1,52 @@
+---
+title: "FIT3152 Tutorial 1"
+output: html_notebook
+---
+
+```{r}
+December <- read.csv("Ped_Count_December_2021.csv")
+December[3:83] <- lapply(December[3:83], as.numeric)
+
+```
+
+```{r}
+head(December)
+nrow(December)
+# There are 744 rows and 83 columns
+```
+```{r}
+#● How many observations are there each day?
+# There are 24 observations each day 
+
+```
+
+```{r}
+# ● Calculate the average pedestrian count for each of the locations. Express your answers to two
+#decimal places.
+print(round(colMeans(December[3:83], na.rm=TRUE), digits =2))
+#print(round(colMeans(December, na.rm = TRUE), digits=2))
+```
+```{r}
+#Explore the distribution of the hourly pedestrian count at each location using boxplots. 
+boxplot(December[3:83], na.rm = TRUE, las = 2, at = seq(1, 81 * 4, by = 4), cex = 0, pch = 16, whisklty = 1, col = "purple", boxwex = 3, range = 2000, cex.axis= 0.4, ylim = c(0, 5300))
+# remove data with all NA values
+```
+```{r}
+# ● Plot a time series decomposition of pedestrian counts at the location “Melbourne.Central”.
+timeseries <- ts(December$Melbourne.Central, frequency= 24, start = 1)
+library("ggplot2")
+timeseries
+plot(timeseries)
+```
+```{r}
+inds <- seq(as.Date("2021-12-01"), as.Date("2021-12-31"), by = 1)
+inds
+as.numeric(format(inds[1], "%j"))## Create a time series object
+inds[1]
+myts <- ts(December$Melbourne.Central,     # random data
+           start = c(2021, as.numeric(format(inds[1], "%j"))),
+           frequency = 24)
+#myts
+plot(myts)
+```
+
